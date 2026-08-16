@@ -1,0 +1,83 @@
+<Window x:Class="IdeaMaker.Windows.HistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="历史记录" Height="480" Width="360"
+        Background="#1e1e2e"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#cdd6f4"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#cdd6f4"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#cdd6f4"/>
+            <Setter Property="BorderBrush" Value="#45475a"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#45475a"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#1e1e2e"/>
+            <Setter Property="Foreground" Value="#cdd6f4"/>
+            <Setter Property="BorderBrush" Value="#45475a"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#181825" BorderBrush="#313244" BorderThickness="0 0 0 1">
+            <DockPanel Margin="16 10">
+                <TextBlock Text="任务历史" Foreground="#89b4fa" FontSize="14" FontWeight="Bold"/>
+                <Button DockPanel.Dock="Right" Click="Close_Click" Content="关闭" Width="50" Height="24"/>
+            </DockPanel>
+        </Border>
+
+        <ListBox x:Name="HistoryList" Grid.Row="1" Margin="12" BorderThickness="1"
+                 SelectionChanged="HistoryList_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#313244" BorderBrush="#45475a" BorderThickness="1" Padding="12" Margin="0 0 0 4">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Topic}" Foreground="#cdd6f4" FontSize="13" FontWeight="Medium"/>
+                            <StackPanel Orientation="Horizontal" Margin="0 4 0 0">
+                                <TextBlock Foreground="#f9e2af" FontSize="11">
+                                    <Run Text="难度 "/><Run Text="{Binding Difficulty, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock Foreground="#6c7086" FontSize="11" Margin="8 0 0 0">
+                                    <Run Text="{Binding CreatedAt, StringFormat='· {0:MM-dd HH:mm}', Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Grid.Row="2" x:Name="ClearBtn" Click="Clear_Click"
+                Content="清空历史" Height="26" Foreground="#6c7086" Background="Transparent"
+                BorderThickness="0" Margin="0 4 0 8"/>
+    </Grid>
+</Window>
